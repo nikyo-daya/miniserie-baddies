@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Shadow's Baddies</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .header {
+            padding: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+        .header span {
+            font-size: 16px;
+            display: block;
+            color: white;
+        }
+        .container {
+    display: flex;
+    flex-direction: row; /* Alinea los elementos horizontalmente */
+    justify-content: center; /* Centra los elementos horizontalmente */
+    align-items: center; /* Centra los elementos verticalmente */
+    margin: 0 auto;
+    width: 80%; /* Ajusta el ancho del contenedor principal */
+    height: auto;
+        }
+        
+        .cover {
+        background-color: white;
+        color: black;
+        display: inline-block; /* Ajusta el tamaño al contenido */
+        padding: 0; /* Elimina cualquier espacio adicional */
+        }
+        .cover img {
+            height: 40vh; /* Fija la altura a 40px */
+        width: auto; /* Ajusta el ancho automáticamente manteniendo la proporción */
+        display: block; /* Elimina el espacio extra debajo de la imagen */
+        }
+        .title-section {
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.5;
+            max-width: 300px;
+            color: white;
+        }
+        .title-section h2 {
+            margin: 0;
+            font-size: 24px;
+            border-bottom: 2px solid white;
+            display: inline-block;
+            padding: 0 20px;
+            color: white; /* Cambia el color a blanco */
+            background: none; /* Elimina el degradado */
+            -webkit-background-clip: unset; /* Elimina el recorte del fondo */
+            -webkit-text-fill-color: unset; /* Elimina el relleno transparente */
+        }
+        .title-section p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: white;
+        }
+        .chapters {
+            margin: 20px 0;
+        }
+        .chapter-btn {
+            background-color: #555;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .chapter-btn:hover {
+            background-color: #777;
+        }
+        .video-area {
+            margin: 0 auto; /* Centra el video horizontalmente */
+            background-color: rgb(3, 0, 0);
+            width: 80%; /* Ocupa todo el ancho */
+            height: auto; /* Ajusta la altura automáticamente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+        }
+        .video-area video {
+            width: 100%; /* Ocupa todo el ancho */
+            height: auto; /* Ajusta la altura automáticamente */
+            object-fit: contain; /* Asegura que el video se ajuste sin recortarse */
+            background-color: black;
+        }
+        .interactive {
+            margin-top: 10px;
+            color: white;
+        }
+        .interactive button {
+            background-color: #e50914;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .interactive button:hover {
+            background-color: #f40612;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">BADDIES<br><span>MiniSerie</span></div>
+    <div class="container">
+        <div class="cover">
+            <img src="imagenes/portada.png" alt="Portada de la película">
+        </div> <!-- Cierra correctamente el contenedor .cover -->
+        <div class="title-section">
+            <h2>DARKS SHADOW'S BADDIES</h2>
+            <p>Categoría: Acción, 2D, Heroes, Villanos</p>
+        </div>
+    </div>
+    <div class="chapters">
+        <button class="chapter-btn" onclick="showChapter(1)">Capítulo 1</button>
+        <button class="chapter-btn" onclick="showChapter(2)">Capítulo 2</button>
+        <button class="chapter-btn" onclick="showChapter(3)">Capítulo 3</button>
+        <button class="chapter-btn" onclick="showChapter(4)">Capítulo 4</button>
+        <button class="chapter-btn" onclick="showChapter(5,230)">Capítulo 5</button>
+    </div>
+    <div class="video-area" id="videoArea">
+        <video controls>
+            <source src="your-default-video-url-here.mp4" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+    </div>
+
+    <script>
+        const videoSources = {
+            1: "videos/capítulo 1.mp4",
+            2: "videos/capítulo 2.mp4",
+            3: "videos/capítulo 3.mp4",
+            4: "videos/capítulo 4.mp4",
+            5: "videos/capítulo 5.mp4"
+        };
+
+        function showChapter(chapter, timestamp) {
+            const videoArea = document.getElementById('videoArea');
+    const videoUrl = videoSources[chapter] || "your-default-video-url-here.mp4";
+    videoArea.innerHTML = `
+        <video id="chapterVideo" controls>
+            <source src="${videoUrl}" type="video/mp4">
+            Tu navegador no soporta el elemento de video.
+        </video>
+    `;
+
+    const video = document.getElementById('chapterVideo');
+    video.load();
+    video.play();
+
+    if (chapter === 5 && timestamp) {
+        video.ontimeupdate = function () {
+            if (video.currentTime >= timestamp) {
+                video.pause(); // Pausa el video
+
+                // Verifica si ya existen los botones para no duplicarlos
+                if (!document.querySelector('.interactive')) {
+                    const interactiveDiv = document.createElement('div');
+                    interactiveDiv.className = 'interactive';
+                    interactiveDiv.innerHTML = `
+                        <p>Elige tu final:</p>
+                        <button onclick="setEnding('good')">Final Bueno</button>
+                        <button onclick="setEnding('bad')">Final Malo</button>
+                    `;
+                    videoArea.appendChild(interactiveDiv); // Agrega los botones sin recargar el video
+                }
+
+                video.ontimeupdate = null; // Evita que se ejecute repetidamente
+            }
+        };
+    }
+}
+
+function setEnding(type) {
+    const video = document.getElementById('chapterVideo');
+    const videoArea = document.getElementById('videoArea');
+
+    if (type === 'good') {
+        // Continúa el video desde el segmento del final bueno
+        const interactiveDiv = document.querySelector('.interactive');
+        if (interactiveDiv) interactiveDiv.remove(); // Elimina los botones
+        video.currentTime =  230; // Tiempo en segundos donde comienza el final bueno
+        video.play();
+
+        // Detener el video al final del segmento del final bueno
+        video.ontimeupdate = function () {
+            if (video.currentTime >=   303) { // Tiempo donde termina el final bueno
+                video.pause();
+                videoArea.innerHTML = `<p class="message">Robert sale victorioso</p>`;
+            }
+        };
+    } else if (type === 'bad') {
+        // Salta al segmento del final malo
+        const interactiveDiv = document.querySelector('.interactive');
+        if (interactiveDiv) interactiveDiv.remove(); // Elimina los botones
+        video.currentTime =308; // Tiempo en segundos donde comienza el final malo
+        video.play();
+
+        // Detener el video al final del segmento del final malo
+        video.ontimeupdate = function () {
+            if (video.currentTime >=509) { // Tiempo donde termina el final malo
+                video.pause();
+                videoArea.innerHTML = `<p class="message">Isa cumplió su objetivo</p>`;
+            }
+        };
+    }
+}
+    </script>
+</body>
+</html>
